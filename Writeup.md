@@ -1,9 +1,10 @@
 ### Git cloning a repository of the simple application
-
+- Prequisites are you should have git and nodejs installed, if you don't have the setup don't worry, visit these websites for [NodeJs](https://nodejs.org/en), for [Git](https://github.com/git-guides/install-git)
 - Clone the boilerplate code for ZkEvm using this command
 ``` javascript
 git clone https://github.com/immutable/zkevm-boilerplate.git
 ```
+After cloning, you can you can change your world with this, since you have basic setup for the ZkEvm of Immutable Passport.
 
 ### Registering the application on Immutable Developer Hub
 
