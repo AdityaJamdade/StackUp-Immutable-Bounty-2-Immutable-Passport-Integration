@@ -4,7 +4,7 @@
 ``` javascript
 git clone https://github.com/immutable/zkevm-boilerplate.git
 ```
-After cloning, you can you can change your world with this, since you have basic setup for the ZkEvm of Immutable Passport.
+After cloning, you are good to go, since you have basic setup for the ZkEvm of Immutable Passport.
 
 ### Registering the application on Immutable Developer Hub
 
@@ -15,3 +15,5 @@ After cloning, you can you can change your world with this, since you have basic
 ### Displaying on the app the id token, access token obtained from authenticating with Passport after login, and the user's nickname
 ### Logging out a user
 ### Initiate a transaction from Passport, such as sending a placeholder string and obtaining the transaction hash
+
+This is just a basic guide to using Immutable Passport. For more information, please refer to the Immutable Passport documentation: https://docs.immutable.com/docs/x/passport
