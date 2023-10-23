@@ -4,7 +4,6 @@
 ``` javascript
 git clone https://github.com/immutable/zkevm-boilerplate.git
 ```
-After cloning, you are good to go, since you have basic setup for the ZkEvm of Immutable Passport.
 
 ### Registering the application on Immutable Developer Hub
 - Register your application as an OAuth 2.0 client in the [Immutable Developer Hub](https://hub.immutable.com/?_gl=1*i3bh2g*_ga*ODgyMzk2NzY5LjE2OTc3ODIwOTI.*_ga_4JBHZ7F06X*MTY5Nzk3MjYwNi4zLjEuMTY5Nzk3NDIxOS4wLjAuMA..*_ga_7XM4Y7T8YC*MTY5Nzk3MjYwNy41LjEuMTY5Nzk3NTI1MC4wLjAuMA..) by following the "Add Client" button in the Passport page.
@@ -22,6 +21,39 @@ There are a few crucial details that must be provided when adding a client:
 
 
 ### Installing and initialising the Passport client
+
+**Prerequisites**
+- Install Node.js (Node v18+).
+   
+**Install the immutable sdk by running following command**
+  
+```javascript
+npm install -D @imtbl/sdk
+```
+
+**Initialization**
+- Example Passport instance:
+```javascript
+const passportInstance = new passport.Passport({
+  baseConfig: new config.ImmutableConfiguration({
+    environment: config.Environment.PRODUCTION,
+  }),
+  clientId: '<YOUR_CLIENT_ID>',
+  redirectUri: 'https://example.com',
+  logoutRedirectUri: 'https://example.com/logout',
+  audience: 'platform_api',
+  scope: 'openid offline_access email transact',
+});
+```
+Here,
+- **baseConfig**: baseConfig is the shared configuration for Immutable modules, defining the environment and other global settings.
+- **clientId**: clientId is the unique identifier for your registered application in the Immutable Developer Hub.
+**redirectUri**: redirectUri is the URL where users are redirected after successful authentication, matching a Callback URL in your client settings.
+- **logoutRedirectUri**: logoutRedirectUri is the URL for user redirection after logging out, matching a Logout URL in your client settings.
+- **audience**: audience is a string specifying the intended audience for the issued token, e.g., 'platform_api' for Immutable protocol APIs.
+- **scope**: scope defines the access privileges requested, including custom scopes like 'transact' and standard OpenID Connect (OIDC) scopes such as 'openid', 'offline_access', and 'email'.
+
+
 ### Logging in a user with Passport
 ### Displaying on the app the id token, access token obtained from authenticating with Passport after login, and the user's nickname
 ### Logging out a user
