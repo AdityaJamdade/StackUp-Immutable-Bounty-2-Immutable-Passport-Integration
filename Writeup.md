@@ -55,6 +55,41 @@ Here,
 
 
 ### Logging in a user with Passport
+Now that we have initialised our passport, we need to create functionality for logging in, here for this guide we are using the Ethers.js library for loggin in but we can also do it using the Passport (EIP-1193) method. for more information [visit](https://docs.immutable.com/docs/zkEVM/products/passport/identity/login).
+
+**1. Initialise the provider**
+```javascript
+import { ethers } from 'ethers';
+const passportProvider = passport.connectEvm();
+const provider = new ethers.providers.Web3Provider(passportProvider);
+
+const signer = provider.getSigner();
+const address = await signer.getAddress();
+```
+
+**2. Trigger the login process**
+
+```javascript
+import { ethers } from 'ethers';
+
+const passportProvider = passport.connectEvm();
+const provider = new ethers.providers.Web3Provider(passportProvider);
+const accounts = await provider.send("eth_requestAccounts", []);
+```
+
+Once the requestAccounts RPC method has been called, the Passport module will begin the authentication process. If the user successfully authenticates, then the user will be redirected to the Redirect URI that was set in the OIDC Configuration.
+
+**3. Configure the login callback**
+
+At this point, the route that handles requests to the Redirect URI will need to call the loginCallback method on page load. Your specific implementation will vary based on your application's architecture, but a vanilla Javascript implementation may look as follows:
+```javascript
+window.addEventListener('load', function() {
+  passport.loginCallback();
+});
+```
+
+The loginCallback method will then process the response from the Immutable's auth domain, store the authenticated user in session storage and close the pop-up. Once the authentication flow is complete, the Promise returned from requestAccounts will also resolve with a single-item array containing the user's address.
+
 ### Displaying on the app the id token, access token obtained from authenticating with Passport after login, and the user's nickname
 ### Logging out a user
 ### Initiate a transaction from Passport, such as sending a placeholder string and obtaining the transaction hash
