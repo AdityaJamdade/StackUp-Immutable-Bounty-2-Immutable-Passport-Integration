@@ -91,7 +91,51 @@ window.addEventListener('load', function() {
 The loginCallback method will then process the response from the Immutable's auth domain, store the authenticated user in session storage and close the pop-up. Once the authentication flow is complete, the Promise returned from requestAccounts will also resolve with a single-item array containing the user's address.
 
 ### Displaying on the app the id token, access token obtained from authenticating with Passport after login, and the user's nickname
+#### Prequisites
+- The user must be logged into your application via Passport.
+
+**- 1. Getting user information**
+The getUserInfo function returns a promise that resolves the following information about the currently logged-in user:
+```javascript
+const userProfile = await passport.getUserInfo();
+```
+Here - 
+- ```email``` - The email address of the logged-in user. This property will be undefined if the email scope has not been requested.
+- ```sub``` -	The subject (unique identifier) of the logged-in user.
+- ```nickname``` - The nickname of the logged-in user.
+
+The getUserInfo function may throw the following error:
+
+```NOT_LOGGED_IN_ERROR```,	No user is logged in at the time of the function call.	Verify that a user has logged in before attempting to call getUserInfo
+
 ### Logging out a user
+**1. It is really simple to logout users using the logout method.**
+
+Exaple:
+
+```javascript
+// 1. Initialise Passport and set the preferred logout mode
+const passport = new Passport({
+  logoutRedirectUri: 'http://localhost:3000',
+  logoutMode: 'redirect', // defaults to 'redirect' if not set
+  // ...
+});
+
+// 2. authenticate user
+// ... refer to the "Enable user login" page for more information
+
+// 3. Log the user out
+await passport.logout();
+```
+
+**2. Logout Modes - Redirect Mode:**
+
+- The above explanation provides details about the 'redirect' logout mode.
+- In the 'redirect' mode:
+- The user's application session is cleared by removing the JWT (JSON Web Token) from the browser's local storage.
+- The user is then redirected to the Passport authentication domain, where the Passport session is cleared.
+- Finally, the user is redirected back to the specified logoutRedirectUri.
+
 ### Initiate a transaction from Passport, such as sending a placeholder string and obtaining the transaction hash
 
 This is just a basic guide to using Immutable Passport. For more information, please refer to the Immutable Passport documentation: https://docs.immutable.com/docs/x/passport
