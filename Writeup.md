@@ -148,5 +148,65 @@ await passport.logout();
 - Finally, the user is redirected back to the specified logoutRedirectUri.
 
 ### Initiate a transaction from Passport, such as sending a placeholder string and obtaining the transaction hash
+- Use the Passport provider when creating a new provider with Ethers.js, which abstracts the complexity of interacting directly with an EIP-1193 provider:
+```javascript
+import { ethers } from 'ethers';
 
-This is just a basic guide to using Immutable Passport. For more information, please refer to the Immutable Passport documentation: https://docs.immutable.com/docs/x/passport
+const passportProvider = passport.connectEvm();
+
+const provider = new ethers.providers.Web3Provider(passportProvider);
+```
+- and then use the provider as you would any other Ethereum provider:
+```javascript
+const signer = provider.getSigner();
+const address = await signer.getAddress();
+```
+
+- Here's an example of how you can send a simple transaction, such as sending a placeholder string, and obtain the transaction hash using ethers.js:
+
+```javascript
+// Import necessary libraries
+import { ethers } from 'ethers';
+
+// Create a new provider using Passport
+const passportProvider = passport.connectEvm();
+const provider = new ethers.providers.Web3Provider(passportProvider);
+
+// Assuming you have a connected signer from Passport
+const signer = provider.getSigner();
+
+// Define the transaction parameters (to, value, data)
+const toAddress = '0xYourRecipientAddress'; // Replace with the recipient's Ethereum address
+const value = ethers.utils.parseEther('0.01'); // Amount in Ether
+const data = '0x'; // This is a placeholder data (empty data for a simple transfer)
+
+// Create a transaction request
+const txRequest = {
+  to: toAddress,
+  value: value,
+  data: data,
+};
+
+// Sign and send the transaction
+signer.sendTransaction(txRequest)
+  .then((tx) => {
+    console.log('Transaction hash:', tx.hash);
+
+    // You can listen for transaction confirmation if needed
+    tx.wait().then((receipt) => {
+      console.log('Transaction confirmed in block:', receipt.blockNumber);
+    });
+  })
+  .catch((error) => {
+    console.error('Error sending transaction:', error);
+  });
+
+```
+In above code:
+- we create a transaction request with the recipient's address, the amount you want to send (in Ether), and optional data (which can be empty for simple transfers).
+
+- The ```signer.sendTransaction``` method signs and sends the transaction. It returns a promise that resolves to a transaction hash.
+
+- we can also listen for transaction confirmation using ```tx.wait()```, which resolves to a receipt with details about the transaction.
+
+This is just a basic guide to using Immutable Passport. For more information, please refer to the Immutable Passport documentation: https://docs.immutable.com/docs/x/passport.
