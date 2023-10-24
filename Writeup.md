@@ -6,7 +6,7 @@
 4. Logging in a user with Passport
 5. Displaying on the app the id token, access token obtained from authenticating with Passport after login, and the user's nickname
 6. Logging out a user
-7. Initiate a transaction from Passport, such as sending a placeholder string and obtaining the transaction hash
+7. Initiate a transaction from Passport
 
 
 ### Git cloning a repository of the simple application
